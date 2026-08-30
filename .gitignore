@@ -1,0 +1,8 @@
+Client/.env
+Server/.env
+
+Client/.flowbite-react
+Client/.vscode
+Client/node_modules
+
+Server/node_modules
