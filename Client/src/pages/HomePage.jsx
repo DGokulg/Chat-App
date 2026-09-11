@@ -12,11 +12,13 @@ const HomePage = () => {
 
             {/* header */}
             <header className="flex items-center justify-between px-6 py-4 bg-white/[0.04] backdrop-blur-xl border-b border-white/10">
-                <div className="flex items-center gap-2.5">
-                    <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-violet-500 to-teal-400 flex items-center justify-center text-white font-bold shadow-md shadow-violet-500/30">
-                        A
+                <div className="flex items-center justify-center gap-2.5 mb-6">
+                    <div className="w-11 h-11 rounded-2xl bg-gradient-to-br from-violet-500 to-teal-400 flex items-center justify-center shadow-lg shadow-violet-500/40">
+                        <svg viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6 text-white">
+                            <path d="M12 2C6.48 2 2 6.03 2 11c0 2.6 1.23 4.93 3.2 6.57-.15 1.3-.6 2.55-1.36 3.6a.5.5 0 00.5.8c2.02-.42 3.7-1.3 4.85-2.1.87.2 1.8.13 2.81.13 5.52 0 10-4.03 10-9S17.52 2 12 2z" />
+                        </svg>
                     </div>
-                    <span className="text-white font-semibold text-lg tracking-tight">Portal</span>
+                    <span className="text-2xl font-bold text-white tracking-tight">Chatty</span>
                 </div>
 
                 <button
