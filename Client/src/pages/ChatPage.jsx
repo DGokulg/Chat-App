@@ -147,6 +147,7 @@ const sendMessage = async () => {
               message : message,
               senderId: user?._id
             }])
+            setMessage('')
             sendMessage()
           }}
         >
