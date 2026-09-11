@@ -1,5 +1,5 @@
 import UserContext from "../context/UserContext"
-import { useContext, useEffect, useState } from "react"
+import { useContext, useEffect, useState, useRef } from "react"
 import { useParams } from "react-router-dom"
 
 import SocketContext from "../context/SocketContext"
@@ -14,9 +14,11 @@ const ChatPage = () => {
 
   const { userId } = useParams()
 
+  const messagesEndRef = useRef(null)
+
   useEffect(() => {
     const updateReceiver = async () => {
-      const response = await fetch(`http://localhost:5000/user_id/${userId}`)
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/user_id/${userId}`)
       const data = await response.json()
       // console.log(data)
       setReceiver(data.user)
@@ -47,7 +49,7 @@ const ChatPage = () => {
    
     const getHistory = async () => {
       try{
-        const response = await fetch(`http://localhost:5000/message/get/msg?senderId=${user._id}&receiverId=${userId}`,
+        const response = await fetch(`${import.meta.env.VITE_API_URL}/message/get/msg?senderId=${user._id}&receiverId=${userId}`,
           {
             method: "GET",
             headers: {
@@ -65,14 +67,33 @@ const ChatPage = () => {
     getHistory()
   }, [user, userId])
 
-  const sendMessage = async () => {
-    console.log(socket)
-    socket.emit("send_message", {
-      sender_id: user?._id,
-      receiver_id: receiver?._id,
-      message: message ? message : "empty"
-    })
-  }
+  useEffect(() => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" })
+  }, [history])
+
+const sendMessage = async () => {
+
+  // if (!user?._id) {
+  //   console.log("User is not loaded yet")
+  //   return
+  // }
+
+  // if (!receiver?._id) {
+  //   console.log("Receiver is not loaded yet")
+  //   return
+  // }
+
+  // if (!socket) {
+  //   console.log("Socket is not connected")
+  //   return
+  // }
+
+  socket.emit("send_message", {
+    sender_id: user._id,
+    receiver_id: receiver._id,
+    message: message ? message : "empty"
+  })
+}
 
   return (
      <div className="chat-page">
@@ -89,7 +110,7 @@ const ChatPage = () => {
       <div className="chat-messages">
         {
           history.map((msg,index) => {
-            const isMine = msg.sender_id === user?._id
+            const isMine = msg.senderId === user?._id
             return (
               <div key={index} className={`chat-row ${isMine ? "chat-row-mine" : "chat-row-theirs"}`}>
                 <div className={`chat-bubble ${isMine ? "chat-bubble-mine" : "chat-bubble-theirs"}`}>
@@ -99,6 +120,7 @@ const ChatPage = () => {
               )
           })
         }
+        <div ref={messagesEndRef} />
       </div>
 
       <div className="chat-input-bar">
@@ -112,7 +134,7 @@ const ChatPage = () => {
         <button className="chat-send-btn" onClick={() => {
           setHistory((prev)=>[...prev,{
             message : message,
-            sender_id: user?._id
+            senderId: user?._id
           }])
           sendMessage()
         }}>Send</button>

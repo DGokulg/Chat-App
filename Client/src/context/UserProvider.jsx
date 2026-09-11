@@ -11,14 +11,14 @@ const UserProvider = ({ children }) => {
         const checkSession = async () => {
             const localToken = localStorage.getItem("token")
             try {
-                const response = await fetch("http://localhost:5000/profile",
+                const response = await fetch(`${import.meta.env.VITE_API_URL}/profile`,
                     {
                         headers: {
                             Authorization: `Bearer ${localToken}`
                         }
                     }
                 )
-                const users = await fetch("http://localhost:5000/users")
+                const users = await fetch(`${import.meta.env.VITE_API_URL}/users`)
                 const usersData = await users.json()
                 setAllUsers(usersData.users)
                 if (response.status === 401) {

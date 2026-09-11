@@ -9,7 +9,7 @@ const SocketProvider = ({ children }) => {
 
     useEffect(() => {
 
-        const newsocket = io("http://localhost:5000",
+        const newsocket = io(`${import.meta.env.VITE_API_URL}/`,
             {
                 auth: {
                     token: localStorage.getItem("token")

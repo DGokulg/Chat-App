@@ -11,7 +11,7 @@ const LoginPage = () => {
 
             if (localToken) {
                 try{
-                    const response = await fetch("http://localhost:5000/profile",
+                    const response = await fetch(`${import.meta.env.VITE_API_URL}/profile`,
                         {
                             headers: {
                                 Authorization: `Bearer ${localToken}`
@@ -36,7 +36,7 @@ const LoginPage = () => {
 
     const handleLogin = async (clientResponse) => {
         console.log(clientResponse)
-        const response = await fetch("http://localhost:5000/google",
+        const response = await fetch(`${import.meta.env.VITE_API_URL}/google`,
             {
                 method: "POST",
                 headers: {
@@ -48,6 +48,7 @@ const LoginPage = () => {
         )
         const data = await response.json()
         console.log(data)
+        console.log(data.token)
         localStorage.setItem("token", data.token)
         navigate("/profile")
     }
